@@ -1,6 +1,6 @@
 <template>
   <!-- Header -->
-  <app-header />
+  <AppHeader />
   <!-- Introduction -->
   <section class="mb-8 py-20 text-white text-center relative">
     <div
@@ -266,18 +266,18 @@
   </div>
 
   <!-- Auth Modal -->
-  <app-auth />
+  <Auth />
 </template>
 
 <script>
-import AppHeader from '@/components/AppHeader.vue'
-import AppAuth from '@/components/AppAuth.vue'
+import AppHeader from '@/components/Header.vue'
+import Auth from '@/components/Auth.vue'
 
 export default {
   name: 'App',
   components: {
     AppHeader,
-    AppAuth
+    Auth
   }
 }
 </script>
