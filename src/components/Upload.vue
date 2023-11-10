@@ -6,8 +6,25 @@
     </div>
     <div class="p-6">
       <!-- Upload Dropbox -->
+      <!-- 
+            drag nedir? örneğin bir dosyayı sürüklemeye başladığımızda drag eventi tetiklenir.
+            drop nedir? örneğin bir dosyayı sürükleyip bıraktığımızda drop eventi tetiklenir.
+            dragover nedir? örneğin bir dosyayı sürüklerken üzerine gelindiğinde dragover eventi tetiklenir.
+            dragenter nedir? örneğin bir dosyayı sürüklerken üzerine gelindiğinde dragenter eventi tetiklenir.
+            dragleave nedir? örneğin bir dosyayı sürüklerken üzerinden çıkıldığında dragleave eventi tetiklenir.
+            dragstart nedir? örneğin bir dosyayı sürüklemeye başladığımızda dragstart eventi tetiklenir.
+            dragend nedir? örneğin bir dosyayı sürüklemeyi bıraktığımızda dragend eventi tetiklenir.
+       -->
       <div
         class="w-full px-10 py-20 rounded text-center cursor-pointer border border-dashed border-gray-400 text-gray-400 transition duration-500 hover:text-white hover:bg-green-400 hover:border-green-400 hover:border-solid"
+        :class="{ 'bg-green-400 border-solid border-2 border-green-400': isDragging }"
+        @drag.prevent.stop=""
+        @dragstart.prevent.stop=""
+        @dragend.prevent.stop="isDragging = false"
+        @dragover.prevent.stop="isDragging = true"
+        @dragenter.prevent.stop="isDragging = true"
+        @dragleave.prevent.stop="isDragging = false"
+        @drop.prevent.stop="upload($event)"
       >
         <h5>Drop your files here</h5>
       </div>
@@ -37,7 +54,31 @@
   </div>
 </template>
 <script>
+import { storage } from '@/includes/firebase'
 export default {
-  name: 'Upload'
+  name: 'Upload',
+  data() {
+    return {
+      isDragging: false
+    }
+  },
+  methods: {
+    upload($event) {
+      this.isDragging = false
+
+      const { files } = [...$event.dataTransfer.files]
+
+      files.forEach((file) => {
+        if (file.type !== 'audio/mpeg') {
+          return
+        }
+
+        const storageRef = storage.ref() //music-d8cb3.appspot.com
+        const songsRef = storageRef.child(`songs/${file.name}`) //music-d8cb3.appspot.com/songs/Just another song.mp3
+        songsRef.put(file)
+      })
+      console.log(files)
+    }
+  }
 }
 </script>
