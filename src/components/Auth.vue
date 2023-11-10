@@ -1,4 +1,5 @@
 <template>
+  <!-- Auth Modal -->
   <div class="fixed z-10 inset-0 overflow-y-auto" id="modal" :class="hiddenClass">
     <div
       class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
@@ -32,7 +33,7 @@
                 href="#"
                 @click.prevent="tab = 'login'"
                 :class="{
-                  ' hover:text-white text-white bg-blue-600': tab === 'login',
+                  'hover:text-white text-white bg-blue-600': tab === 'login',
                   'hover:text-blue-600': tab === 'register'
                 }"
                 >Login</a
@@ -44,7 +45,7 @@
                 href="#"
                 @click.prevent="tab = 'register'"
                 :class="{
-                  ' hover:text-white text-white bg-blue-600': tab === 'register',
+                  'hover:text-white text-white bg-blue-600': tab === 'register',
                   'hover:text-blue-600': tab === 'login'
                 }"
                 >Register</a
@@ -52,20 +53,20 @@
             </li>
           </ul>
 
-          <!-- Login Form -->
-          <AppLoginForm v-if="tab === 'login'" />
-          <!-- Registration Form -->
-          <AppRegisterForm v-else />
+          <app-login-form v-if="tab === 'login'" />
+          <app-register-form v-else />
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import { mapState, mapWritableState } from 'pinia'
 import useModalStore from '@/stores/modal'
-import AppLoginForm from './LoginForm.vue'
-import AppRegisterForm from './RegisterForm.vue'
+import AppLoginForm from '@/components/LoginForm.vue'
+import AppRegisterForm from '@/components/RegisterForm.vue'
+
 export default {
   name: 'Auth',
   components: {
