@@ -27,6 +27,12 @@
             <li>
               <router-link class="px-2 text-white" :to="{ name: 'manage' }"> Manage</router-link>
             </li>
+            <!-- user name -->
+            <li v-show="userStore.userLoggedIn">
+              <a>
+                <span class="px-2 text-white">{{ username }}</span>
+              </a>
+            </li>
             <li>
               <a class="px-2 text-white" href="#" @click.prevent="signOut">Logout</a>
             </li>
@@ -45,7 +51,10 @@ import useUserStore from '@/stores/user'
 export default {
   name: 'AppHeader',
   computed: {
-    ...mapStores(useModalStore, useUserStore)
+    ...mapStores(useModalStore, useUserStore),
+    username() {
+      return this.userStore.userLoggedIn ? this.userStore.displayName : ''
+    }
   },
   methods: {
     toggleAuthModal() {
